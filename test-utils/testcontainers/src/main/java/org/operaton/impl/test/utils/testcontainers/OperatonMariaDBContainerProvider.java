@@ -23,7 +23,7 @@ import org.testcontainers.utility.DockerImageName;
 
 public class OperatonMariaDBContainerProvider extends MariaDBContainerProvider {
 
-  private static final String NAME = "cammariadb";
+  private static final String NAME = "opmariadb";
 
   @Override
   public boolean supports(String databaseType) {

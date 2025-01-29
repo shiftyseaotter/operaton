@@ -23,7 +23,7 @@ import org.testcontainers.utility.DockerImageName;
 
 public class OperatonMySqlContainerProvider extends MySQLContainerProvider {
 
-  private static final String NAME = "cammysql";
+  private static final String NAME = "opmysql";
 
   @Override
   public boolean supports(String databaseType) {

@@ -234,7 +234,7 @@
         <database.type>mariadb</database.type>
         <database.driver>org.mariadb.jdbc.Driver</database.driver>
         <database.datasource.class>org.mariadb.jdbc.MySQLDataSource</database.datasource.class>
-        <database.tc.url>cammariadb:10.6</database.tc.url>
+        <database.tc.url>opmariadb:10.6</database.tc.url>
         <database.tc.params>/${database.name}?user=${database.username}&amp;amp;password=${database.password}</database.tc.params>
       </properties>
 
@@ -270,7 +270,7 @@
         <database.type>mysql</database.type>
         <database.driver>com.mysql.cj.jdbc.Driver</database.driver>
         <database.datasource.class>com.mysql.cj.jdbc.MysqlDataSource</database.datasource.class>
-        <database.tc.url>cammysql:8.0</database.tc.url>
+        <database.tc.url>opmysql:8.0</database.tc.url>
         <database.tc.params>/${database.name}?sendFractionalSeconds=false&amp;amp;user=${database.username}&amp;amp;password=${database.password}</database.tc.params>
       </properties>
 
@@ -343,7 +343,7 @@
         <jboss.datasource.filename>postgresql-ds.xml</jboss.datasource.filename>
         <was.liberty.datasource.filename>postgresql-config.xml</was.liberty.datasource.filename>
         <hibernate.dialect>org.hibernate.dialect.PostgreSQLDialect</hibernate.dialect>
-        <database.tc.url>campostgresql:13.2</database.tc.url>
+        <database.tc.url>oppostgresql:13.2</database.tc.url>
       </properties>
 
       <dependencies>
@@ -385,7 +385,7 @@
         <database.type>mssql</database.type>
         <database.driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</database.driver>
         <database.datasource.class>com.microsoft.sqlserver.jdbc.SQLServerDataSource</database.datasource.class>
-        <database.tc.url>camsqlserver:2019</database.tc.url>
+        <database.tc.url>opsqlserver:2019</database.tc.url>
         <database.tc.params>;DatabaseName=${database.name};user=${database.username};password=${database.password};</database.tc.params>
       </properties>
 
@@ -417,7 +417,7 @@
     <profile>
       <id>sqlserver-2017</id>
       <properties>
-        <database.tc.url>camsqlserver:2017</database.tc.url>
+        <database.tc.url>opsqlserver:2017</database.tc.url>
       </properties>
     </profile>
 
