@@ -16,6 +16,18 @@
  */
 package org.operaton.bpm.engine.rest.openapi.generator.impl;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.filefilter.DirectoryFileFilter;
+import org.apache.commons.io.filefilter.RegexFileFilter;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -30,23 +42,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.filefilter.DirectoryFileFilter;
-import org.apache.commons.io.filefilter.RegexFileFilter;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class TemplateParser {
+
+  private static final String VERSION_DEVELOP = "develop";
+  private static final String VERSION_LATEST = "latest";
+  private static final String DATA_DOCS_VERSION = "docsVersion";
+  private static final String DATA_CAMBPM_VERSION = "cambpmVersion";
 
   public static void main(String[] args) throws IOException, TemplateException {
 
@@ -129,20 +132,20 @@ public class TemplateParser {
     String version = TemplateParser.class.getPackage().getImplementationVersion();
 
     if (version != null) {
-      // cambpmVersion = 7.X.Y
-      templateData.put("cambpmVersion", version);
+      // operatonbpmVersion = 7.X.Y
+      templateData.put("operatonbpmVersion", version);
 
       if (version.contains("SNAPSHOT")) {
-        templateData.put("docsVersion", "develop");
+        templateData.put(DATA_DOCS_VERSION, VERSION_DEVELOP);
       } else if (version.contains("alpha")) {
-        templateData.put("docsVersion", "latest");
+        templateData.put(DATA_DOCS_VERSION, VERSION_LATEST);
       } else {
         // docsVersion = 7.X
-        templateData.put("docsVersion", version.substring(0, version.lastIndexOf(".")));
+        templateData.put(DATA_DOCS_VERSION, version.substring(0, version.lastIndexOf(".")));
       }
     } else {
       // only for debug cases
-      templateData.put("cambpmVersion", "develop");
+      templateData.put("operatonbpmVersion", "develop");
       templateData.put("docsVersion", "develop");
     }
   }
