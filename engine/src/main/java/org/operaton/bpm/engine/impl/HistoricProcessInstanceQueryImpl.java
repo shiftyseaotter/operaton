@@ -6,7 +6,7 @@
  * Version 2.0; you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -63,6 +63,7 @@ public class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<
   protected String businessKeyLike;
   protected boolean finished = false;
   protected boolean unfinished = false;
+  protected boolean withJobsRetrying = false;
   protected boolean withIncidents = false;
   protected boolean withRootIncidents = false;
   protected String incidentType;
@@ -87,6 +88,7 @@ public class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<
   protected String processDefinitionKey;
   protected String[] processDefinitionKeys;
   protected Set<String> processInstanceIds;
+  protected String[] processInstanceIdNotIn;
   protected String[] tenantIds;
   protected boolean isTenantIdSet;
   protected String[] executedActivityIds;
@@ -119,6 +121,13 @@ public class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<
   public HistoricProcessInstanceQuery processInstanceIds(Set<String> processInstanceIds) {
     ensureNotEmpty("Set of process instance ids", processInstanceIds);
     this.processInstanceIds = processInstanceIds;
+    return this;
+  }
+
+  @Override
+  public HistoricProcessInstanceQuery processInstanceIdNotIn(String... processInstanceIdNotIn){
+    ensureNotNull("processInstanceIdNotIn", (Object[]) processInstanceIdNotIn);
+    this.processInstanceIdNotIn = processInstanceIdNotIn;
     return this;
   }
 
@@ -233,6 +242,12 @@ public class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<
   }
 
   @Override
+  public HistoricProcessInstanceQuery withJobsRetrying(){
+    this.withJobsRetrying = true;
+    return this;
+  }
+
+  @Override
   public HistoricProcessInstanceQuery startedBy(String userId) {
     this.startedBy = userId;
     return this;
@@ -342,7 +357,9 @@ public class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<
       || CompareUtil.areNotInAscendingOrder(startedAfter, startedBefore)
       || CompareUtil.areNotInAscendingOrder(finishedAfter, finishedBefore)
       || CompareUtil.elementIsContainedInList(processDefinitionKey, processKeyNotIn)
-      || CompareUtil.elementIsNotContainedInList(processInstanceId, processInstanceIds);
+      || CompareUtil.elementIsNotContainedInList(processInstanceId, processInstanceIds)
+      || CompareUtil.elementIsContainedInArray(processInstanceId, processInstanceIdNotIn)
+      || CompareUtil.elementsAreContainedInArray(processInstanceIds, processInstanceIdNotIn);
   }
 
   @Override
@@ -605,6 +622,10 @@ public class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<
     return processInstanceIds;
   }
 
+  public String[] getProcessInstanceIdNotIn() {
+    return processInstanceIdNotIn;
+  }
+
   public String getStartedBy() {
     return startedBy;
   }
@@ -701,6 +722,10 @@ public class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<
     return isTenantIdSet;
   }
 
+  public boolean isWithJobsRetrying(){
+    return withJobsRetrying;
+  }
+
   public boolean isWithIncidents() {
     return withIncidents;
   }
@@ -720,14 +745,14 @@ public class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<
   protected Date finishDateOnBegin;
   protected Date finishDateOnEnd;
 
-  @Deprecated
+  @Deprecated(since = "1.0")
   @Override
   public HistoricProcessInstanceQuery startDateBy(Date date) {
     this.startDateBy = this.calculateMidnight(date);
     return this;
   }
 
-  @Deprecated
+  @Deprecated(since = "1.0")
   @Override
   public HistoricProcessInstanceQuery startDateOn(Date date) {
     this.startDateOn = date;
@@ -736,14 +761,14 @@ public class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<
     return this;
   }
 
-  @Deprecated
+  @Deprecated(since = "1.0")
   @Override
   public HistoricProcessInstanceQuery finishDateBy(Date date) {
     this.finishDateBy = this.calculateBeforeMidnight(date);
     return this;
   }
 
-  @Deprecated
+  @Deprecated(since = "1.0")
   @Override
   public HistoricProcessInstanceQuery finishDateOn(Date date) {
     this.finishDateOn = date;
@@ -752,7 +777,7 @@ public class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<
     return this;
   }
 
-  @Deprecated
+  @Deprecated(since = "1.0")
   private Date calculateBeforeMidnight(Date date){
     Calendar cal = Calendar.getInstance();
     cal.setTime(date);
@@ -761,7 +786,7 @@ public class HistoricProcessInstanceQueryImpl extends AbstractVariableQueryImpl<
     return cal.getTime();
   }
 
-  @Deprecated
+  @Deprecated(since = "1.0")
   private Date calculateMidnight(Date date){
     Calendar cal = Calendar.getInstance();
     cal.setTime(date);

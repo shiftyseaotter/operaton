@@ -6,7 +6,7 @@
  * Version 2.0; you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,11 +36,11 @@ public class SpringTransactionInterceptor extends CommandInterceptor {
   protected ProcessEngineConfigurationImpl processEngineConfiguration;
 
   /**
-   * @deprecated use the {@link #SpringTransactionInterceptor(PlatformTransactionManager, int, ProcessEngineConfigurationImpl)}
-   *    constructor to ensure that concurrency conflicts that occur on
-   *    transaction commit are detected and handled in all cases
+   * @deprecated Use the {@link #SpringTransactionInterceptor(PlatformTransactionManager, int, ProcessEngineConfigurationImpl)}
+   *    constructor to ensure that concurrency conflicts that occur on a
+   *    transaction commit are detected and handled in all cases.
    */
-  @Deprecated
+  @Deprecated(forRemoval = true, since = "1.0")
   public SpringTransactionInterceptor(PlatformTransactionManager transactionManager, int transactionPropagation) {
     this(transactionManager, transactionPropagation, null);
   }

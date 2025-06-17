@@ -6,7 +6,7 @@
  * Version 2.0; you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,35 +27,35 @@ import org.operaton.bpm.engine.impl.cmmn.cmd.ManualStartCaseExecutionCmd;
 import org.operaton.bpm.engine.impl.cmmn.cmd.StateTransitionCaseExecutionCmd;
 import org.operaton.bpm.engine.runtime.CaseExecution;
 import org.operaton.bpm.engine.test.Deployment;
-import org.operaton.bpm.engine.test.util.ProcessEngineTestRule;
-import org.operaton.bpm.engine.test.util.ProvidedProcessEngineRule;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.RuleChain;
+import org.operaton.bpm.engine.test.junit5.ProcessEngineTestExtension;
+import org.operaton.bpm.engine.test.junit5.ProcessEngineExtension;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.Test;
+
 import org.slf4j.Logger;
 
 /**
  * @author Roman Smirnov
  *
  */
-public class CompetingSentrySatisfactionTest {
+class CompetingSentrySatisfactionTest {
 
   private static final Logger LOG = ProcessEngineLogger.TEST_LOGGER.getLogger();
 
-  protected ProvidedProcessEngineRule engineRule = new ProvidedProcessEngineRule();
-  protected ProcessEngineTestRule testRule = new ProcessEngineTestRule(engineRule);
+  @RegisterExtension
+  static ProcessEngineExtension engineRule = ProcessEngineExtension.builder().build();
+  @RegisterExtension
+  ProcessEngineTestExtension testRule = new ProcessEngineTestExtension(engineRule);
 
-  @Rule
-  public RuleChain ruleChain = RuleChain.outerRule(engineRule).around(testRule);
 
   protected ProcessEngineConfigurationImpl processEngineConfiguration;
   protected CaseService caseService;
 
   protected static ControllableThread activeThread;
 
-  @Before
-  public void initializeServices() {
+  @BeforeEach
+  void initializeServices() {
     processEngineConfiguration = engineRule.getProcessEngineConfiguration();
     caseService = engineRule.getCaseService();
   }
@@ -109,7 +109,7 @@ public class CompetingSentrySatisfactionTest {
 
   @Deployment(resources = {"org/operaton/bpm/engine/test/concurrency/CompetingSentrySatisfactionTest.testEntryCriteriaWithAndSentry.cmmn"})
   @Test
-  public void testEntryCriteriaWithAndSentry() {
+  void testEntryCriteriaWithAndSentry() {
     String caseInstanceId = caseService
         .withCaseDefinitionByKey("case")
         .create()
@@ -152,7 +152,7 @@ public class CompetingSentrySatisfactionTest {
 
   @Deployment(resources = {"org/operaton/bpm/engine/test/concurrency/CompetingSentrySatisfactionTest.testExitCriteriaWithAndSentry.cmmn"})
   @Test
-  public void testExitCriteriaWithAndSentry() {
+  void testExitCriteriaWithAndSentry() {
     String caseInstanceId = caseService
         .withCaseDefinitionByKey("case")
         .create()
@@ -195,7 +195,7 @@ public class CompetingSentrySatisfactionTest {
 
   @Deployment(resources = {"org/operaton/bpm/engine/test/concurrency/CompetingSentrySatisfactionTest.testEntryCriteriaWithOrSentry.cmmn"})
   @Test
-  public void testEntryCriteriaWithOrSentry() {
+  void testEntryCriteriaWithOrSentry() {
     String caseInstanceId = caseService
         .withCaseDefinitionByKey("case")
         .create()
@@ -237,9 +237,9 @@ public class CompetingSentrySatisfactionTest {
   }
 
   @Deployment(resources = {"org/operaton/bpm/engine/test/concurrency/CompetingSentrySatisfactionTest.testExitCriteriaWithOrSentry.cmmn",
-      "org/operaton/bpm/engine/test/concurrency/CompetingSentrySatisfactionTest.oneTaskProcess.bpmn20.xml"})
+    "org/operaton/bpm/engine/test/concurrency/CompetingSentrySatisfactionTest.oneTaskProcess.bpmn20.xml"})
   @Test
-  public void testExitCriteriaWithOrSentry() {
+  void testExitCriteriaWithOrSentry() {
     String caseInstanceId = caseService
         .withCaseDefinitionByKey("case")
         .create()
@@ -265,7 +265,7 @@ public class CompetingSentrySatisfactionTest {
       .activityId("ProcessTask_3")
       .singleResult();
     caseService.manuallyStartCaseExecution(thirdTask.getId());
-    
+
     LOG.debug("test thread starts thread one");
     SingleThread threadOne = new ManualStartSingleThread(firstHumanTaskId);
     threadOne.startAndWaitUntilControlIsReturned();

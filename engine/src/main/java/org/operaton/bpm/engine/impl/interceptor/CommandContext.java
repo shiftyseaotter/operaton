@@ -6,7 +6,7 @@
  * Version 2.0; you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,7 +24,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
-
 import org.operaton.bpm.application.InvocationContext;
 import org.operaton.bpm.application.ProcessApplicationReference;
 import org.operaton.bpm.engine.AuthorizationException;
@@ -54,7 +53,6 @@ import org.operaton.bpm.engine.impl.identity.Authentication;
 import org.operaton.bpm.engine.impl.identity.ReadOnlyIdentityProvider;
 import org.operaton.bpm.engine.impl.identity.WritableIdentityProvider;
 import org.operaton.bpm.engine.impl.jobexecutor.FailedJobCommandFactory;
-import org.operaton.bpm.engine.impl.optimize.OptimizeManager;
 import org.operaton.bpm.engine.impl.persistence.entity.AttachmentManager;
 import org.operaton.bpm.engine.impl.persistence.entity.AuthorizationManager;
 import org.operaton.bpm.engine.impl.persistence.entity.BatchManager;
@@ -656,10 +654,6 @@ public class CommandContext {
 
   public void setOperationId(String operationId) {
     this.operationId = operationId;
-  }
-
-  public OptimizeManager getOptimizeManager() {
-    return getSession(OptimizeManager.class);
   }
 
   public <T> void executeWithOperationLogPrevented(Command<T> command) {

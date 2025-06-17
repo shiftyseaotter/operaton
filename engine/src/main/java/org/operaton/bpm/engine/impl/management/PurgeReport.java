@@ -6,7 +6,7 @@
  * Version 2.0; you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,7 +21,7 @@ import org.operaton.bpm.engine.impl.persistence.deploy.cache.CachePurgeReport;
 /**
  * The purge report contains information about the deleted rows for each table
  * and also the deleted values which are removed from the deployment cache.
- * If now entities are deleted since the database was already clean the purge report is empty.
+ * If no entities are deleted since the database was already clean the purge report is empty.
  *
  * @author Christopher Zell <christopher.zell@camunda.com>
  */

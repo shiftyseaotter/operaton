@@ -6,7 +6,7 @@
  * Version 2.0; you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,19 +25,19 @@ import com.fasterxml.uuid.EthernetAddress;
 import static org.assertj.core.api.Assertions.assertThat;
 import com.fasterxml.uuid.Generators;
 import com.fasterxml.uuid.impl.TimeBasedGenerator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Daniel Meyer
  *
  */
-public class UuidGeneratorTest {
+class UuidGeneratorTest {
 
   private static final int THREAD_COUNT = 10;
   private static final int LOOP_COUNT = 10000;
 
   @Test
-  public void testMultithreaded() throws InterruptedException {
+  void testMultithreaded() throws InterruptedException {
     final List<Thread> threads = new ArrayList<>();
 
     final TimeBasedGenerator timeBasedGenerator = Generators.timeBasedGenerator(EthernetAddress.fromInterface());

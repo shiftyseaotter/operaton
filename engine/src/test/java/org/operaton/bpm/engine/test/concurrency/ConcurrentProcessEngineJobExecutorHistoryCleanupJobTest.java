@@ -6,7 +6,7 @@
  * Version 2.0; you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,9 +35,9 @@ import org.operaton.bpm.engine.impl.interceptor.CommandInvocationContext;
 import org.operaton.bpm.engine.impl.persistence.entity.JobEntity;
 import org.operaton.bpm.engine.impl.util.ClockUtil;
 import org.operaton.bpm.engine.runtime.Job;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * <p>Tests a concurrent attempt of a bootstrapping Process Engine to reconfigure
@@ -62,12 +62,12 @@ import org.junit.Test;
  *
  * @author Nikola Koevski
  */
-public class ConcurrentProcessEngineJobExecutorHistoryCleanupJobTest extends ConcurrencyTestCase {
+class ConcurrentProcessEngineJobExecutorHistoryCleanupJobTest extends ConcurrencyTestCase {
 
   private static final String PROCESS_ENGINE_NAME = "historyCleanupJobEngine";
 
-  @Before
-  public void setUp() {
+  @BeforeEach
+  void setUp() {
 
     // Ensure that current time is outside batch window
     Calendar timeOfDay = Calendar.getInstance();
@@ -101,8 +101,8 @@ public class ConcurrentProcessEngineJobExecutorHistoryCleanupJobTest extends Con
     }
   }
 
-  @After
-  public void tearDown() {
+  @AfterEach
+  void tearDown() {
     processEngineConfiguration.getCommandExecutorTxRequired().execute((Command<Void>) commandContext -> {
 
       List<Job> jobs = processEngine.getManagementService().createJobQuery().list();
@@ -120,7 +120,7 @@ public class ConcurrentProcessEngineJobExecutorHistoryCleanupJobTest extends Con
   }
 
   @Test
-  public void testConcurrentHistoryCleanupJobReconfigurationExecution() throws InterruptedException {
+  void testConcurrentHistoryCleanupJobReconfigurationExecution() throws InterruptedException {
 
     processEngine.getHistoryService().cleanUpHistoryAsync(true);
 
@@ -155,7 +155,7 @@ public class ConcurrentProcessEngineJobExecutorHistoryCleanupJobTest extends Con
   protected static class ControllableProcessEngineBootstrapCommand extends ControllableCommand<Void> {
 
     protected ControllableBootstrapEngineCommand bootstrapCommand;
-    
+
     @Override
     public Void execute(CommandContext commandContext) {
 
@@ -172,7 +172,7 @@ public class ConcurrentProcessEngineJobExecutorHistoryCleanupJobTest extends Con
 
       return null;
     }
-    
+
     public CommandInvocationContext getContextSpy() {
       return bootstrapCommand.getSpy();
     }
@@ -216,7 +216,7 @@ public class ConcurrentProcessEngineJobExecutorHistoryCleanupJobTest extends Con
 
       monitor.sync();
     }
-    
+
     public CommandInvocationContext getSpy() {
       return spy;
     }

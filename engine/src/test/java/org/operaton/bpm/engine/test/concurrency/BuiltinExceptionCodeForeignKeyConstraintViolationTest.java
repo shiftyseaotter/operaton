@@ -6,7 +6,7 @@
  * Version 2.0; you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
  */
 package org.operaton.bpm.engine.test.concurrency;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.operaton.bpm.engine.ProcessEngineException;
 import org.operaton.bpm.engine.impl.errorcode.BuiltinExceptionCode;
 import org.operaton.bpm.engine.impl.interceptor.CommandContext;
@@ -24,7 +24,7 @@ import org.operaton.bpm.engine.test.Deployment;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class BuiltinExceptionCodeForeignKeyConstraintViolationTest extends ConcurrencyTestCase {
+class BuiltinExceptionCodeForeignKeyConstraintViolationTest extends ConcurrencyTestCase {
 
   protected static class ControllableDeleteProcessDefinitionCommand extends ControllableCommand<Void> {
 
@@ -75,7 +75,7 @@ public class BuiltinExceptionCodeForeignKeyConstraintViolationTest extends Concu
 
   @Deployment(resources = "org/operaton/bpm/engine/test/api/oneTaskProcess.bpmn20.xml")
   @Test
-  public void shouldReturnForeignKeyConstraintErrorCode() {
+  void shouldReturnForeignKeyConstraintErrorCode() {
     // given
     ThreadControl thread1 = executeControllableCommand(new ControllableStartProcessInstanceCommand("oneTaskProcess"));
     thread1.reportInterrupts();

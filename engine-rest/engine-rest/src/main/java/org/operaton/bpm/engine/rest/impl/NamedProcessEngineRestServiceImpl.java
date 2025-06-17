@@ -6,7 +6,7 @@
  * Version 2.0; you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,18 +18,16 @@ package org.operaton.bpm.engine.rest.impl;
 
 import static org.operaton.bpm.engine.rest.util.EngineUtil.getProcessEngineProvider;
 
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.UriBuilder;
-
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import org.operaton.bpm.engine.rest.AuthorizationRestService;
 import org.operaton.bpm.engine.rest.BatchRestService;
 import org.operaton.bpm.engine.rest.CaseDefinitionRestService;
@@ -63,7 +61,6 @@ import org.operaton.bpm.engine.rest.UserRestService;
 import org.operaton.bpm.engine.rest.VariableInstanceRestService;
 import org.operaton.bpm.engine.rest.dto.ProcessEngineDto;
 import org.operaton.bpm.engine.rest.history.HistoryRestService;
-import org.operaton.bpm.engine.rest.impl.optimize.OptimizeRestService;
 import org.operaton.bpm.engine.rest.spi.ProcessEngineProvider;
 
 
@@ -244,12 +241,6 @@ public class NamedProcessEngineRestServiceImpl extends AbstractProcessEngineRest
   @Path("/{name}" + ConditionRestService.PATH)
   public ConditionRestService getConditionRestService(@PathParam("name") String engineName) {
     return super.getConditionRestService(engineName);
-  }
-
-  @Override
-  @Path("/{name}" + OptimizeRestService.PATH)
-  public OptimizeRestService getOptimizeRestService(@PathParam("name") String engineName) {
-    return super.getOptimizeRestService(engineName);
   }
 
   @Override

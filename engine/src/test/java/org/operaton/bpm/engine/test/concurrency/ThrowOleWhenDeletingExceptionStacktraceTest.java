@@ -6,7 +6,7 @@
  * Version 2.0; you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,18 +24,18 @@ import org.operaton.bpm.engine.impl.interceptor.Command;
 import org.operaton.bpm.engine.impl.interceptor.CommandContext;
 import org.operaton.bpm.engine.impl.persistence.entity.JobEntity;
 import org.operaton.bpm.engine.impl.persistence.entity.MessageEntity;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Tassilo Weidner
  */
-public class ThrowOleWhenDeletingExceptionStacktraceTest extends ConcurrencyTestCase {
+class ThrowOleWhenDeletingExceptionStacktraceTest extends ConcurrencyTestCase {
 
   protected AtomicReference<JobEntity> job = new AtomicReference<>();
 
-  @After
-  public void tearDown() {
+  @AfterEach
+  void tearDown() {
     if (job.get() != null) {
       processEngineConfiguration.getCommandExecutorTxRequired().execute((Command<Void>) commandContext -> {
         JobEntity jobEntity = job.get();
@@ -52,7 +52,7 @@ public class ThrowOleWhenDeletingExceptionStacktraceTest extends ConcurrencyTest
   }
 
   @Test
-  public void testThrowOleWhenDeletingExceptionStacktraceTest() {
+  void testThrowOleWhenDeletingExceptionStacktraceTest() {
     // given
     processEngineConfiguration.getCommandExecutorTxRequired()
       .execute((Command<Void>) commandContext -> {

@@ -30,7 +30,7 @@
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-framework-bom</artifactId>
-        <version>6.2.6</version>
+        <version>6.2.8</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -408,7 +408,7 @@
       <dependency>
         <groupId>org.apache.tomcat</groupId>
         <artifactId>tomcat-catalina</artifactId>
-        <version>11.0.6</version>
+        <version>11.0.8</version>
       </dependency>
 
       <dependency>

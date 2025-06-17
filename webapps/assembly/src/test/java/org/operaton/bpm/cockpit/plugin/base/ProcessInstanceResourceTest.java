@@ -6,7 +6,7 @@
  * Version 2.0; you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,74 +16,48 @@
  */
 package org.operaton.bpm.cockpit.plugin.base;
 
-import static junit.framework.TestCase.fail;
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.sql.SQLException;
-import java.util.List;
-
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.operaton.bpm.cockpit.impl.plugin.base.dto.CalledProcessInstanceDto;
 import org.operaton.bpm.cockpit.impl.plugin.base.dto.IncidentStatisticsDto;
 import org.operaton.bpm.cockpit.impl.plugin.base.dto.ProcessInstanceDto;
 import org.operaton.bpm.cockpit.impl.plugin.base.dto.query.CalledProcessInstanceQueryDto;
 import org.operaton.bpm.cockpit.impl.plugin.base.sub.resources.ProcessInstanceResource;
 import org.operaton.bpm.cockpit.plugin.test.AbstractCockpitPluginTest;
-import org.operaton.bpm.engine.BadUserRequestException;
-import org.operaton.bpm.engine.IdentityService;
-import org.operaton.bpm.engine.ProcessEngine;
-import org.operaton.bpm.engine.RepositoryService;
-import org.operaton.bpm.engine.RuntimeService;
-import org.operaton.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.operaton.bpm.engine.repository.ProcessDefinition;
 import org.operaton.bpm.engine.runtime.ActivityInstance;
 import org.operaton.bpm.engine.runtime.ProcessInstance;
 import org.operaton.bpm.engine.test.Deployment;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 /**
  * @author roman.smirnov
  */
-public class ProcessInstanceResourceTest extends AbstractCockpitPluginTest {
-
+class ProcessInstanceResourceTest extends AbstractCockpitPluginTest {
   private ProcessInstanceResource resource;
-  private ProcessEngine processEngine;
-  protected ProcessEngineConfigurationImpl processEngineConfiguration;
-  private RuntimeService runtimeService;
-  private RepositoryService repositoryService;
-  protected IdentityService identityService;
 
-  @Before
-  public void setUp() {
-    super.before();
-
-    processEngine = getProcessEngine();
-    processEngineConfiguration = (ProcessEngineConfigurationImpl) getProcessEngine()
-      .getProcessEngineConfiguration();
-    runtimeService = processEngine.getRuntimeService();
-    repositoryService = processEngine.getRepositoryService();
-    identityService = processEngine.getIdentityService();
-  }
-
-  @After
-  public void clearAuthentication() {
+  @AfterEach
+  void clearAuthentication() {
     identityService.clearAuthentication();
   }
 
-  @After
-  public void resetQueryMaxResultsLimit() {
+  @AfterEach
+  void resetQueryMaxResultsLimit() {
     processEngineConfiguration.setQueryMaxResultsLimit(Integer.MAX_VALUE);
   }
 
   @Test
   @Deployment(resources = {
-      "processes/two-parallel-call-activities-calling-different-process.bpmn",
-      "processes/user-task-process.bpmn",
-      "processes/another-user-task-process.bpmn"
-    })
-  public void testGetCalledProcessInstancesByParentProcessInstanceId() {
+    "processes/two-parallel-call-activities-calling-different-process.bpmn",
+    "processes/user-task-process.bpmn",
+    "processes/another-user-task-process.bpmn"
+  })
+  void getCalledProcessInstancesByParentProcessInstanceId() {
     ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("TwoParallelCallActivitiesCallingDifferentProcess");
 
     resource = new ProcessInstanceResource(getProcessEngine().getName(), processInstance.getId());
@@ -117,7 +91,7 @@ public class ProcessInstanceResourceTest extends AbstractCockpitPluginTest {
         compareWith = anotherUserTaskProcess;
         assertThat(dto.getCallActivityId()).isEqualTo("secondCallActivity");
       } else {
-        Assert.fail("Unexpected called process instance: " + dto.getId());
+        fail("Unexpected called process instance: " + dto.getId());
       }
 
       assertThat(dto.getCallActivityInstanceId()).isNotNull();
@@ -134,7 +108,7 @@ public class ProcessInstanceResourceTest extends AbstractCockpitPluginTest {
       "processes/user-task-process.bpmn",
       "processes/another-user-task-process.bpmn"
   })
-  public void testGetCalledProcessInstancesByParentProcessInstanceIdContainsBusinessKey() {
+  void testGetCalledProcessInstancesByParentProcessInstanceIdContainsBusinessKey() {
     ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("TwoParallelCallActivitiesCallingDifferentProcess", "myBusinessKey");
 
     resource = new ProcessInstanceResource(getProcessEngine().getName(), processInstance.getId());
@@ -143,7 +117,6 @@ public class ProcessInstanceResourceTest extends AbstractCockpitPluginTest {
     CalledProcessInstanceQueryDto queryParameter = new CalledProcessInstanceQueryDto();
 
     List<CalledProcessInstanceDto> result = resource.queryCalledProcessInstances(queryParameter);
-    assertThat(result).isNotEmpty();
     assertThat(result).hasSize(2);
     assertThat(result.get(0).getBusinessKey()).isEqualTo("firstCall:myBusinessKey");
     assertThat(result.get(1).getBusinessKey()).isEqualTo("secondCall:myBusinessKey");
@@ -152,11 +125,11 @@ public class ProcessInstanceResourceTest extends AbstractCockpitPluginTest {
 
   @Test
   @Deployment(resources = {
-      "processes/two-parallel-call-activities-calling-different-process.bpmn",
-      "processes/user-task-process.bpmn",
-      "processes/another-user-task-process.bpmn"
-    })
-  public void testGetCalledProcessInstancesByParentProcessInstanceIdAndActivityInstanceId() {
+    "processes/two-parallel-call-activities-calling-different-process.bpmn",
+    "processes/user-task-process.bpmn",
+    "processes/another-user-task-process.bpmn"
+  })
+  void getCalledProcessInstancesByParentProcessInstanceIdAndActivityInstanceId() {
     ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("TwoParallelCallActivitiesCallingDifferentProcess");
 
     resource = new ProcessInstanceResource(getProcessEngine().getName(), processInstance.getId());
@@ -172,7 +145,7 @@ public class ProcessInstanceResourceTest extends AbstractCockpitPluginTest {
       } else if (child.getActivityId().equals("secondCallActivity")) {
         secondActivityInstanceId = child.getId();
       } else {
-        Assert.fail("Unexpected activity instance with activity id: " + child.getActivityId() + " and instance id: " + child.getId());
+        fail("Unexpected activity instance with activity id: " + child.getActivityId() + " and instance id: " + child.getId());
       }
     }
 
@@ -212,7 +185,7 @@ public class ProcessInstanceResourceTest extends AbstractCockpitPluginTest {
     "processes/call-activity.bpmn",
     "processes/failing-process.bpmn"
   })
-  public void testCalledProcessIntancesIncidents() {
+  void calledProcessIntancesIncidents() {
     ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("CallActivity");
 
     resource = new ProcessInstanceResource(getProcessEngine().getName(), processInstance.getId());
@@ -267,7 +240,7 @@ public class ProcessInstanceResourceTest extends AbstractCockpitPluginTest {
   }
 
   @Test
-  public void shouldNotThrowExceptionWhenQueryUnbounded() {
+  void shouldNotThrowExceptionWhenQueryUnbounded() {
     // given
     resource = new ProcessInstanceResource(getProcessEngine().getName(), "anId");
 
@@ -275,13 +248,10 @@ public class ProcessInstanceResourceTest extends AbstractCockpitPluginTest {
 
     identityService.setAuthenticatedUserId("foo");
 
-    try {
-      // when
-      resource.queryCalledProcessInstances(new CalledProcessInstanceQueryDto());
-      // then: no exception thrown
-    } catch (BadUserRequestException e) {
-      fail("No exception expected");
-    }
+    var calledProcessInstanceQueryDto = new CalledProcessInstanceQueryDto();
+
+    // when + then
+    Assertions.assertDoesNotThrow(() -> resource.queryCalledProcessInstances(calledProcessInstanceQueryDto), "No exception expected");
   }
 
 }

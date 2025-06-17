@@ -6,7 +6,7 @@
  * Version 2.0; you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,19 +20,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
 import org.operaton.bpm.cockpit.db.QueryParameters;
 import org.operaton.bpm.cockpit.plugin.test.AbstractCockpitPluginTest;
 import org.operaton.bpm.engine.runtime.Execution;
-import org.junit.Test;
 
 /**
  *
  * @author nico.rehwaldt
  */
-public class PluginQueryTest extends AbstractCockpitPluginTest {
+class PluginQueryTest extends AbstractCockpitPluginTest {
 
   @Test
-  public void testCustomQuery() {
+  void customQuery() {
 
     List<Execution> result = getQueryService().executeQuery("cockpit.base.selectProcessDefinitionWithFailedJobs", new QueryParameters());
 
